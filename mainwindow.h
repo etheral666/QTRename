@@ -21,7 +21,6 @@ public:
 private slots:
 
     void on_renameButton_clicked();
-
     void on_saveSettingsButton_clicked();
 
 private:
