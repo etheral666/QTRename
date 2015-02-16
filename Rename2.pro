@@ -10,15 +10,26 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Rename2
 TEMPLATE = app
+RC_ICONS = icon.ico
 
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     filemover.cpp \
-    filenamegenerator.cpp
+    filenamegenerator.cpp \
+    filesmanager.cpp \
+    settings.cpp \
+    maskeddirform.cpp
 
 HEADERS  += mainwindow.h \
     filemover.h \
-    filenamegenerator.h
+    filenamegenerator.h \
+    filesmanager.h \
+    settings.h \
+    maskeddirform.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    maskeddirform.ui
+
+RESOURCES += \
+    graphicresources.qrc

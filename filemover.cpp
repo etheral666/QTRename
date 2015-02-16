@@ -1,56 +1,29 @@
 #include "filemover.h"
 
-bool FileMover::copyFile(const QString &oldfilename, const QString &newfilename, bool deleteoldfile)
+QString FileMover::getFileErrorDescription()
 {
-    QString old_path = oldFileDirectory.absolutePath() + "/";
-    QString new_path = newFileDirectory.absolutePath() + "/";
+    QString errDescription = "";
+    switch(currentFile.error())
+    {
+    case QFileDevice::CopyError:
+    case QFileDevice::RenameError:
+        errDescription = "Błąd: plik istnieje lub brak praw dostępu do dysku."; break;
+    default:
+        errDescription = currentFile.errorString();
+    }
+    currentFile.unsetError();
+    return errDescription;
+}
 
-    currentFile.setFileName(old_path + oldfilename);
+bool FileMover::copyFile(const QString &inputfilename, const QString &outputfilename, bool deleteoldfile)
+{
+    QString inp_path = _settings->getInputDir() + "/";
+    QString out_path = _settings->getOutputDir() + "/" + _settings->getOutputSuffix();
+
+    currentFile.setFileName(inp_path + inputfilename);
 
     if(deleteoldfile)
-        return currentFile.rename(new_path + newfilename);
+        return currentFile.rename(out_path + outputfilename);
     else
-        return currentFile.copy(new_path + newfilename);
-}
-
-bool FileMover::copyFile(const QMap<QString, QString> &files, bool deleteoldfiles)
-{
-    bool result = true;
-    QString old_path = oldFileDirectory.absolutePath() + "/";
-    QString new_path = newFileDirectory.absolutePath() + "/";
-
-    for(QMap<QString, QString>::const_iterator it = files.begin(); it != files.end() && result; ++it)
-    {
-        currentFile.setFileName(old_path + it.key());
-        if(deleteoldfiles)
-            result = currentFile.rename(new_path + it.value());
-        else
-            result = currentFile.copy(new_path + it.value());
-    }
-    return result;
-}
-
-bool FileMover::setOldFileDir(QString path)
-{
-    if(QDir(path).exists())
-    {
-        oldFileDirectory = QDir(path);
-        return true;
-    }
-    return false;
-}
-
-bool FileMover::setNewFileDir(QString path)
-{
-    if(QDir(path).exists())
-    {
-        newFileDirectory = QDir(path);
-        return true;
-    }
-    return false;
-}
-
-bool FileMover::operator()(const QString &oldfilename, const QString &newfilename, bool deleteoldfile)
-{
-    return copyFile(oldfilename, newfilename, deleteoldfile);
+        return currentFile.copy(out_path + outputfilename);
 }

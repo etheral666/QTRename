@@ -5,29 +5,23 @@
 #include <QDir>
 #include <QFile>
 #include <QMap>
+#include "settings.h"
 
 class FileMover
 {
-protected:
+protected:    
+    Settings* _settings;
 
-    QDir oldFileDirectory;
-    QDir newFileDirectory;
     QFile currentFile;
 
 public:
-    FileMover() {}
+    explicit FileMover(Settings* sett) : _settings(sett) {}
     ~FileMover() {}
 
-    QFileDevice::FileError getFileError() const {return currentFile.error();}
-    QString getFileErrorDescription () const {return currentFile.errorString();}
+    QString getFileErrorDescription();
 
-    bool copyFile(const QString& oldfilename, const QString& newfilename, bool deleteoldfile = false);
-    bool copyFile(const QMap<QString, QString> &files, bool deleteoldfiles = false);
+    bool copyFile(const QString& inputfilename, const QString& outputfilename, bool deleteinputfile = false);
 
-    bool setOldFileDir(QString path);
-    bool setNewFileDir(QString path);
-
-    bool operator()(const QString& oldfilename, const QString& newfilename, bool deleteoldfile = false);
 };
 
 #endif // FILEMOVER_H
