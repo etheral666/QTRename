@@ -128,6 +128,8 @@ void Settings::loadDefaultSettings()
     outputFormat = "F-:temat:-:teczka:-:num3:.jpg";
     inputNumFieldWidth = 4;
     outputNumFieldWidth = 3;
+    SubWidth = 2;
+    FileWidth = 3;
 
     checkBoxesSettings = Settings::CLEAR_ALL_FLAGS;
 }
@@ -215,7 +217,7 @@ bool Settings::setOutputFormat(const QString &outFormat)
         return false;
 }
 
-bool Settings::setMaskedDirectories(const QVector<qint32> &keys, const QStringList &directories)
+bool Settings::setMaskedDirectories(const QList<qint32> &keys, const QStringList &directories)
 {
     if(keys.count() != directories.count())
         return false;
@@ -225,7 +227,7 @@ bool Settings::setMaskedDirectories(const QVector<qint32> &keys, const QStringLi
     {
         bool validName = true;
         for(int j = 0; j < forbiddenChars.count(); ++j)
-            if(directories[i].indexOf(forbiddenChars[j]) != -1 || !directories[i][j].isLetterOrNumber())
+            if(directories[i].indexOf(forbiddenChars[j]) != -1)
             {
                 validName = false;
                 break;

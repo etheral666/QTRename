@@ -75,7 +75,7 @@ public:
     bool setOutDirectory(const QString& outputDir);
     bool setInputFormat(const QString& inpFormat);
     bool setOutputFormat(const QString& outFormat);
-    bool setMaskedDirectories(const QVector<qint32>& keys, const QStringList& directories);
+    bool setMaskedDirectories(const QList<qint32>& keys, const QStringList& directories);
     void setCheckBoxSettings(SETTINGS flags) {checkBoxesSettings = flags;}
     void resetCheckBoxFlags(SETTINGS flags) {checkBoxesSettings &= !flags;}
     void setSubjectFileSubst(const QString& subject, const QString& file, qint32 subject_width, qint32 file_width);

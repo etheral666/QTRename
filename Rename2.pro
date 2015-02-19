@@ -12,7 +12,6 @@ TARGET = Rename2
 TEMPLATE = app
 RC_ICONS = icon.ico
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     filemover.cpp \

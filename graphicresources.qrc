@@ -3,5 +3,7 @@
         <file alias="Rename">icon.ico</file>
         <file alias="folder1">E:/Apps/VisualStudio2013/Visual Studio 2013 Image Library/2010_VS Icon Legacy/Icons - VS2010/FolderOpen_7140_24.bmp</file>
         <file alias="folder2">E:/Apps/VisualStudio2013/Visual Studio 2013 Image Library/x--archive--x/Objects - VS2012/png_format/Office and VS/Folder.png</file>
+        <file>E:/Apps/VisualStudio2013/Visual Studio 2013 Image Library/2013_VS Icon Refresh/ConceptIcons/PNG/action_add_16xLG.png</file>
+        <file>check.png</file>
     </qresource>
 </RCC>

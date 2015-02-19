@@ -651,7 +651,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;div style= \&quot;white-space: nowrap; width: 1500px;\&quot;&gt;Some text for tooltip, which is too long&lt;/div&gt;</string>
+       <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Przywraca ustawienia domyślne&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Ustawienia domyślne</string>

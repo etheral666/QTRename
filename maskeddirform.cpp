@@ -32,3 +32,71 @@ void MaskedDirForm::updateMaskedDirDisplay(const QMap<qint32, QString> map)
     }
     ui->maskedDirTableWidget->setSortingEnabled(sorted);
 }
+
+void MaskedDirForm::on_addRowButton_clicked()
+{
+    ui->maskedDirTableWidget->setRowCount(ui->maskedDirTableWidget->rowCount() + 1);
+    maskChecked = false;
+}
+
+void MaskedDirForm::on_checkMasksButton_clicked()
+{
+    checkMasks();
+}
+
+void MaskedDirForm::checkMasks()
+{
+    subjectMasks.clear();
+    subjectNums.clear();
+    bool ok;
+    QTableWidgetItem* item;
+    const QString forbiddenChars = ":\"\\/<>|?*";
+    qint32 num;
+    for(int i = 0; i < ui->maskedDirTableWidget->rowCount(); ++i)
+    {
+        item = ui->maskedDirTableWidget->item(i, 0);
+        num = -1;
+        if(item)
+        {
+            if(item->text().toInt(&ok, 10) < 0 || !ok)
+                item->setTextColor(Qt::red);
+            else
+            {
+                item->setTextColor(Qt::black);
+                num = item->text().toInt(&ok, 10);
+            }
+        }
+        item = ui->maskedDirTableWidget->item(i, 1);
+        if(item)
+        {
+            ok = true;
+            for(int j = 0; j < forbiddenChars.length(); ++j)
+            {
+                if(item->text().indexOf(forbiddenChars[j]) != -1)
+                {
+                    ok = false;
+                    break;
+                }
+            }
+            if(!ok)
+                item->setTextColor(Qt::red);
+            else
+            {
+                item->setTextColor(Qt::black);
+                if(num != -1)
+                {
+                    subjectMasks.append(item->text());
+                    subjectNums.append(num);
+                }
+            }
+        }
+    }
+    maskChecked = true;
+}
+
+void MaskedDirForm::on_finalizeButtonBox_accepted()
+{
+    if(!maskChecked)
+        checkMasks();
+    _settings->setMaskedDirectories(subjectNums, subjectMasks);
+}

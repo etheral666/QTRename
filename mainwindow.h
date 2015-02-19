@@ -26,7 +26,6 @@ public:
 private slots:
 
     void on_renameButton_clicked();
-    void on_saveSettingsButton_clicked();    
     void on_defaultSettingsButton_clicked();
     void on_chooseInputDirButton_clicked();
     void on_chooseOutputDirButton_clicked();
@@ -38,10 +37,7 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
-    void on_maskedDirRadioButton_toggled(bool checked);
-
     QString saveFormSettings();
-
 
     void on_showMasksButton_clicked();
 
@@ -50,6 +46,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
+    Settings *mainSettings;
     MaskedDirForm *maskedDirChanger;
     QMessageBox MsgBox;
     qint32 sessionCounter;
@@ -57,7 +54,6 @@ private:
 
     QMap<QString, QString> files;
 
-    Settings *mainSettings;
 
     FileMover mover;
     FilesManager manager;

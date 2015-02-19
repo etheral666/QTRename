@@ -4,18 +4,21 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    mainSettings(new Settings()),
     maskedDirChanger(new MaskedDirForm),
     files(QMap<QString, QString>()),
-    mainSettings(new Settings()),
     mover(mainSettings),
     manager(mainSettings, &files),
     fErrors(QFileDevice::NoError)
 {
+    this->setFixedSize(611, 416);
+    maskedDirChanger->setSettingsPtr(mainSettings);
     sessionCounter = movedFilesCounter = 0;
     ui->setupUi(this);
     ui->statusBar->showMessage("Podczas bieżącej sesji przeniesiono lub skopiowano 0 plików.");
     updateSettingsDisplay();
     maskedDirChanger->updateMaskedDirDisplay(mainSettings->getMaskedDirMap());
+    //ui->defaultSettingsButton->setToolTip("<div style= \"white-space: nowrap; width: 1500px;\">Some text for tooltip, which is too long</div>");
 }
 
 MainWindow::~MainWindow()
@@ -75,11 +78,6 @@ void MainWindow::on_renameButton_clicked()
         }
     ui->logTextBrowser->append("Zakończono.\n");
     ui->statusBar->showMessage("Podczas bieżącej sesji przeniesiono lub skopiowano " + QString().setNum(movedFilesCounter) + " plików.");
-}
-
-void MainWindow::on_saveSettingsButton_clicked()
-{
-    saveFormSettings();
 }
 
 void MainWindow::on_inputDirCheckBox_clicked()
@@ -177,8 +175,7 @@ void MainWindow::on_createSubjectCheckBox_clicked()
     {
         ui->regularDirRadioButton->setEnabled(true);
         ui->maskedDirRadioButton->setEnabled(true);
-        if(ui->maskedDirRadioButton->isChecked())
-            ui->showMasksButton->setEnabled(true);
+        ui->showMasksButton->setEnabled(true);
     }
     else
     {
@@ -248,14 +245,6 @@ QString MainWindow::saveFormSettings()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     mainSettings->saveSettingsToIniFile();
-}
-
-void MainWindow::on_maskedDirRadioButton_toggled(bool checked)
-{
-    if(checked)
-        ui->showMasksButton->setEnabled(true);
-    else
-        ui->showMasksButton->setEnabled(false);
 }
 
 void MainWindow::on_showMasksButton_clicked()
