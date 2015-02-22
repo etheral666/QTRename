@@ -57,6 +57,7 @@ public:
     void loadDefaultSettings();
     void saveSettingsToIniFile(); //wywoływać dopiero po inicjalizacji pól (np. loadDefaultSettings())
 
+    QString getDefaultDirectory() const {return defaultDirectory;}
     QString getInputDir() const {return inputDirectory;}
     QString getOutputDir() const {return outputDirectory;}
     QString getOutputSuffix() const {return outputPathSuffix;}

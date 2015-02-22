@@ -3,6 +3,7 @@
 QString FileNameGenerator::generate(const QString& inpFile)
 {
     QString tmpPattern = _settings->getInputFormat();
+    qint32 numFieldIdx = tmpPattern.indexOf(":");
     QString inpWidth = QString().setNum(_settings->getInputNumFieldWidth());
 
     tmpPattern = tmpPattern.replace(":num" + inpWidth + ":", "\\d{" + inpWidth + "}");
@@ -19,9 +20,8 @@ QString FileNameGenerator::generate(const QString& inpFile)
     while(num.length() < width)
         num = '0' + num;
     result = result.replace(":teczka:", num);
-
     patternFinder.setPattern("\\d{" + inpWidth + "}");
-    patternFinder.indexIn(inpFile);
+    patternFinder.indexIn(inpFile, numFieldIdx);
     num = patternFinder.cap();
     qint32 outWidth = _settings->getOutputNumFieldWidth();
     while(num.length() < outWidth)

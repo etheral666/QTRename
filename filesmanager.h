@@ -20,7 +20,7 @@ public:
     ~FilesManager() {}
 
     void getMatchingFiles();
-    bool createDir(const QString& path);
+    bool createDir();
 };
 
 #endif // FILESMANAGER_H

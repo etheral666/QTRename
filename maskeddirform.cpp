@@ -7,6 +7,8 @@ MaskedDirForm::MaskedDirForm(QWidget *parent) :
 {
     ui->setupUi(this);
     setModal(true);
+    this->setFixedSize(381, 481);
+    setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 MaskedDirForm::~MaskedDirForm()

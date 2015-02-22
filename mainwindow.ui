@@ -21,6 +21,9 @@
     <pointsize>10</pointsize>
    </font>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::CustomContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>Rename</string>
   </property>
@@ -56,7 +59,7 @@
      <locale language="Polish" country="Poland"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="RenameTab">
      <attribute name="title">
@@ -202,6 +205,9 @@
         <height>22</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Ustawia minimalną szerokość pola &amp;quot;:temat:&amp;quot; dla plików wyjściowych.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="currentIndex">
        <number>1</number>
       </property>
@@ -262,6 +268,9 @@
         <width>41</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Określa minimalną szerokość pola &amp;quot;:teczka:&amp;quot; dla plików wyjściowych.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
        <number>2</number>
@@ -393,7 +402,7 @@
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Format plików wyjściowych musi zawierać dokładnie jedno pole :num[1-9]:, gdzie [1-9] to liczba znaków przeznaczonych na numer porządkowy, np: foto:num5:.jpg oznacza wszystkie pliki foto00000.jpg - foto99999.jpg. Ponadto można wykorzystać dodatkowe pola :temat: i :teczka:, w miejsce których wstawione zostaną odpowiednie wartości wybrane w zakładce Zmiana nazw. Te dwa pola są opcjonalne.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Format plików wyjściowych musi zawierać dokładnie jedno pole :num[1-9]:, gdzie [1-9] to liczba znaków przeznaczonych na numer porządkowy, np: foto:num5:.jpg oznacza wszystkie pliki foto00000.jpg - foto99999.jpg. Ponadto można wykorzystać dodatkowe pola :temat: i :teczka:, w miejsce których wstawione zostaną odpowiednie wartości wybrane w zakładce Zmiana nazw. Te dwa pola są opcjonalne.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -428,7 +437,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Format plików wejściowych musi zawierać dokładnie jedno pole :num[1-9]:, gdzie [1-9] to liczba znaków przeznaczonych na numer porządkowy, np: foto:num5:.jpg oznacza wszystkie pliki foto00000.jpg - foto99999.jpg.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Format plików wejściowych musi zawierać dokładnie jedno pole :num[1-9]:, gdzie [1-9] to liczba znaków przeznaczonych na numer porządkowy, np: foto:num5:.jpg oznacza wszystkie pliki foto00000.jpg - foto99999.jpg.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -516,7 +525,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji pozwala na wybranie katalogu, w którym zapisywane będą pliki wyjściowe.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji pozwala na wybranie katalogu, w którym zapisywane będą pliki wyjściowe.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Wybierz katalog dla plików wejściowych</string>
@@ -532,7 +541,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji pozwala na wybranie katalogu, w którym znajdują się pliki wejściowe.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji pozwala na wybranie katalogu, w którym znajdują się pliki wejściowe.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Wybierz katalog dla plików wyjściowych</string>
@@ -603,7 +612,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji powoduje, że pliki wyjściowe zapisane zostaną do katalogów o nazwie odpowiadającej numerowi tematu.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji powoduje, że pliki wyjściowe zapisane zostaną do katalogów o nazwie odpowiadającej numerowi tematu.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Twórz katalogi tematyczne</string>
@@ -619,7 +628,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji pozwala na automatyczne umieszczanie kopiowanych plików w katalogach o nazwach odpowiadających nadanym numerom teczkek.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznaczenie tej opcji pozwala na automatyczne umieszczanie kopiowanych plików w katalogach o nazwach odpowiadających nadanym numerom teczek.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Twórz podkatalogi dla kolejnych teczek</string>
@@ -635,7 +644,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznacz tę opcję, jeśli chcesz skasować pliki wejściowe po skopiowaniu.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Zaznacz tę opcję, jeśli chcesz skasować pliki wejściowe po skopiowaniu.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Po zakończeniu kasuj pliki wejściowe</string>
@@ -651,7 +660,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;div style= \&quot;white-space: nowrap; width: 1500px;\&quot;&gt;Some text for tooltip, which is too long&lt;/div&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Przywraca ustawienia domyślne.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Ustawienia domyślne</string>
@@ -669,6 +678,9 @@ p, li { white-space: pre-wrap; }
         <height>17</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;W katalogu na pliki wyjściowe będą tworzone podkatalogi o nazwach zdefiniowanych przez użytkownika, np.: jeśli dla numeru tematu 3 zdefiniowano nazwę &amp;quot;MIASTA&amp;quot;, to taki podkatalog zostanie utworzony.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>Nazwy maskowane</string>
       </property>
@@ -684,6 +696,9 @@ p, li { white-space: pre-wrap; }
         <width>231</width>
         <height>17</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;W katalogu na pliki wyjściowe będą tworzone podkatalogi o nazwach odpowiadających numerom tematów, np.: dla numeru 3 oraz szerokości pola 2 zostanie utworzony podkatalog &amp;quot;03&amp;quot;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Nazwy zgodne z numerem tematu</string>
@@ -736,4 +751,7 @@ p, li { white-space: pre-wrap; }
   <include location="graphicresources.qrc"/>
  </resources>
  <connections/>
+ <slots>
+  <slot>showContextMenu()</slot>
+ </slots>
 </ui>

@@ -34,8 +34,10 @@ bool Settings::validateFormat(QString newFormat, bool inpFormat)
             if(newFormat.indexOf(forbiddenChars[i]) != -1)
                 return false;
         }
+        return true;
     }
-    return true;
+    else
+        return false;
 }
 
 bool Settings::validateDirectory(QString path)
@@ -131,6 +133,8 @@ void Settings::loadDefaultSettings()
     SubWidth = 2;
     FileWidth = 3;
 
+    maskedSubjectDirectories.clear();
+
     checkBoxesSettings = Settings::CLEAR_ALL_FLAGS;
 }
 
@@ -159,10 +163,15 @@ void Settings::saveSettingsToIniFile()
     iniParser.setValue("fileWidth", FileWidth);
     iniParser.endGroup();
 
-    iniParser.beginGroup("Masked_directories");
-    foreach(qint32 key, maskedSubjectDirectories.keys())
-        iniParser.setValue(QString().setNum(key), maskedSubjectDirectories.value(key));
-    iniParser.endGroup();
+    if(maskedSubjectDirectories.count() > 0)
+    {
+        iniParser.beginGroup("Masked_directories");
+        foreach(qint32 key, maskedSubjectDirectories.keys())
+            iniParser.setValue(QString().setNum(key), maskedSubjectDirectories.value(key));
+        iniParser.endGroup();
+    }
+    else
+        iniParser.remove("Masked_directories");
 }
 
 bool Settings::setInpDirectory(const QString &inputDir)

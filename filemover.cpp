@@ -18,7 +18,8 @@ QString FileMover::getFileErrorDescription()
 bool FileMover::copyFile(const QString &inputfilename, const QString &outputfilename, bool deleteoldfile)
 {
     QString inp_path = _settings->getInputDir() + "/";
-    QString out_path = _settings->getOutputDir() + "/" + _settings->getOutputSuffix();
+    QString out_path = (_settings->getCheckBoxesFlags() & Settings::USE_CUSTOM_OUTPUT_FOLDER ? _settings->getOutputDir() : _settings->getDefaultDirectory())
+                        + "/" + _settings->getOutputSuffix();
 
     currentFile.setFileName(inp_path + inputfilename);
 

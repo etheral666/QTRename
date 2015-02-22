@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QMap>
 #include <QFileDialog>
+#include <QMenu>
 #include "filemover.h"
 #include "filenamegenerator.h"
 #include "filesmanager.h"
@@ -41,6 +42,10 @@ private slots:
 
     void on_showMasksButton_clicked();
 
+    void on_MainWindow_customContextMenuRequested(const QPoint &pos);
+
+    void showContextInfo();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -53,7 +58,6 @@ private:
     qint32 movedFilesCounter;
 
     QMap<QString, QString> files;
-
 
     FileMover mover;
     FilesManager manager;

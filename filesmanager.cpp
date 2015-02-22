@@ -10,10 +10,10 @@ FilesManager::FilesManager(Settings *sett, QMap<QString, QString> *map) :
 
 void FilesManager::getMatchingFiles()
 {
+    filesPaths->clear();
     QStringList list = QDir(_settings->getInputDir()).entryList(QDir::Files, QDir::Name);
     if(list.empty())
         return;
-
     QRegExp re(":num\\d:");
     QString tmp = "\\d{" + QString().setNum(_settings->getInputNumFieldWidth()) + "}";
     tmp = _settings->getInputFormat().replace(re, tmp);
@@ -25,7 +25,10 @@ void FilesManager::getMatchingFiles()
     }
 }
 
-bool FilesManager::createDir(const QString &path)
+bool FilesManager::createDir()
 {
-    return QDir().mkpath(path);
+    QString outPath = ( _settings->getCheckBoxesFlags() & Settings::USE_CUSTOM_OUTPUT_FOLDER ?
+                        _settings->getOutputDir() : _settings->getDefaultDirectory() );
+    outPath += "/" + _settings->getOutputSuffix();
+    return QDir().mkpath(outPath);
 }

@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->showMessage("Podczas bieżącej sesji przeniesiono lub skopiowano 0 plików.");
     updateSettingsDisplay();
     maskedDirChanger->updateMaskedDirDisplay(mainSettings->getMaskedDirMap());
-    //ui->defaultSettingsButton->setToolTip("<div style= \"white-space: nowrap; width: 1500px;\">Some text for tooltip, which is too long</div>");
 }
 
 MainWindow::~MainWindow()
@@ -30,37 +29,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_renameButton_clicked()
 {
-    //todo
-    //tutaj każdorazowo zmiana w filesmanager.generator -> zmiana parametrów bieżących
-    //zasadniczo po kliknięciu:
-    //1. uaktualnić filesmanager.generator
-    //2. wygenerować mapę plików - w filesmanager będzie potrzebna funkcja
-    //3. filemoverem wykorzystać mapę i przekopiować pliki, aktualizacja movera? raczej przy savesettings
-    //4. wypisywać komunikaty na logTextBrowser
-
-    //1.
     ++sessionCounter;
     ui->logTextBrowser->append("Zamiana nr " + QString().setNum(sessionCounter) + " rozpoczęta.");
     mainSettings->setSubjectFileSubst(QString().setNum(ui->subjectSpinBox->value()),
                                       QString().setNum(ui->fileSpinBox->value()),
                                       ui->subjectWidthComboBox->currentIndex() + 1,
                                       ui->fileWidthComboBox->currentIndex() + 1);
-    if(!manager.createDir(mainSettings->getOutputDir() + "/" + mainSettings->getOutputSuffix()))
-    {
-        ui->logTextBrowser->setTextColor(Qt::red);
-        ui->logTextBrowser->append("Nie udało się stworzyć katalogu na pliki wyjściowe, operacja przerwana.\n");
-        ui->logTextBrowser->setTextColor(Qt::black);
-        return;
-    }
-    //2.
     manager.getMatchingFiles();
 
-    //3,4. testowe
     bool deleteInputFiles = mainSettings->getCheckBoxesFlags() & Settings::DELETE_INPUT_FILES;
     bool copyResult;
     if(files.empty())
         ui->logTextBrowser->append("Brak plików o podanym formacie w katalogu wejściowym.");
     else
+    {
+        if(!manager.createDir())
+        {
+            ui->logTextBrowser->setTextColor(Qt::red);
+            ui->logTextBrowser->append("Nie udało się stworzyć katalogu na pliki wyjściowe, operacja przerwana.\n");
+            ui->logTextBrowser->setTextColor(Qt::black);
+            return;
+        }
         foreach (QString file, files.keys())
         {
             copyResult = mover.copyFile(file, files.value(file), deleteInputFiles);
@@ -76,6 +65,7 @@ void MainWindow::on_renameButton_clicked()
             if(!copyResult)
                 ui->logTextBrowser->append(mover.getFileErrorDescription());
         }
+    }
     ui->logTextBrowser->append("Zakończono.\n");
     ui->statusBar->showMessage("Podczas bieżącej sesji przeniesiono lub skopiowano " + QString().setNum(movedFilesCounter) + " plików.");
 }
@@ -157,15 +147,21 @@ void MainWindow::updateSettingsDisplay()
     ui->outputDirectoryTextBrowser->setEnabled(tmp);
     ui->chooseOutputDirButton->setEnabled(tmp);
 
+    //comboboxy na szerokość dodatkowych pól
     ui->subjectWidthComboBox->setCurrentIndex(mainSettings->getSubWidth() - 1);
     ui->fileWidthComboBox->setCurrentIndex(mainSettings->getFileWidth() - 1);
+
+    //mapa masek
+    maskedDirChanger->updateMaskedDirDisplay(mainSettings->getMaskedDirMap());
 }
 
 void MainWindow::on_defaultSettingsButton_clicked()
 {
+    QString msg = "Przywrócenie ustawień domyślnych spowoduje utratę obecnych ustawień (także masek), czy chcesz kontynuować?";
+    if(QMessageBox::warning(this, "Ostrzeżenie", msg, QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+        return;
     mainSettings->loadDefaultSettings();
     updateSettingsDisplay();
-    maskedDirChanger->updateMaskedDirDisplay(mainSettings->getMaskedDirMap());
 }
 
 
@@ -192,6 +188,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         QString err = saveFormSettings();
         if(!err.isEmpty())
         {
+            err = "Błąd podczas zapisu ustawień:\n" + err;
             MsgBox.setText(err);
             MsgBox.exec();
             ui->tabWidget->setCurrentIndex(1);
@@ -219,25 +216,22 @@ QString MainWindow::saveFormSettings()
     {
         flags |= Settings::USE_CUSTOM_INPUT_FOLDER;
         if(!mainSettings->setInpDirectory(ui->inputDirectoryTextBrowser->toPlainText()))
-            errorMsg += "Nieprawidłowy katalog na pliki wejściowe.\n";
+            errorMsg += " - nieprawidłowy katalog na pliki wejściowe;\n";
     }
 
     if(ui->outputDirCheckBox->isChecked())
     {
         flags |= Settings::USE_CUSTOM_OUTPUT_FOLDER;
         if(!mainSettings->setOutDirectory(ui->outputDirectoryTextBrowser->toPlainText()))
-            errorMsg += "Nieprawidłowy katalog na pliki wyjściowe.\n";
+            errorMsg += " - nieprawidłowy katalog na pliki wyjściowe;\n";
     }
 
     mainSettings->setCheckBoxSettings((Settings::SETTINGS)flags);
-//    todo: po dorobieniu formularza dodać zapisywanie z QVector<qint32> i QStringList
-//    if(!mainSettings->setMaskedDirectories())
-//        errorMsg += "Nieprawidłe znaki w nazwach maskowanych katalogów.\n";
 
     if(!mainSettings->setInputFormat(ui->oldFilePatternTextEdit->toPlainText()))
-        errorMsg += "Nieprawidłowy format plików wejściowych.\n";
+        errorMsg += " - nieprawidłowy format plików wejściowych;\n";
     if(!mainSettings->setOutputFormat(ui->newFilePatternTextEdit->toPlainText()))
-        errorMsg += "Nieprawidłowy format plików wyjściowych.\n";
+        errorMsg += " - nieprawidłowy format plików wyjściowych;\n";
 
     return errorMsg;
 }
@@ -250,4 +244,21 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::on_showMasksButton_clicked()
 {
     maskedDirChanger->exec();
+}
+
+void MainWindow::on_MainWindow_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu menu(this);
+    menu.addAction("O programie", this, SLOT(showContextInfo()));
+    menu.exec(QCursor::pos());
+}
+
+void MainWindow::showContextInfo()
+{
+    QString txt = "<p align='center'>Oprogramowanie darmowe, do wewnętrznego użytku\n Archiwum Programowego OTV Wrocław.</p>"
+                  "<p align='center'>Licencja GNU LGPL v3 i GNU LGPL v2.1</p>"
+                  "<p align='center'>©Jakub Kulikowski 2015</p>";
+    QMessageBox msg;
+    msg.setText(txt);
+    QMessageBox::information(this, "O programie", txt);
 }
