@@ -25,6 +25,8 @@ private slots:
 
     void on_finalizeButtonBox_accepted();
 
+    void on_maskedDirTableWidget_cellChanged(int row, int column);
+
 private:
     Ui::MaskedDirForm *ui;
 

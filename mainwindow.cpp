@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->statusBar->showMessage("Podczas bieżącej sesji przeniesiono lub skopiowano 0 plików.");
     updateSettingsDisplay();
-    maskedDirChanger->updateMaskedDirDisplay(mainSettings->getMaskedDirMap());
 }
 
 MainWindow::~MainWindow()
@@ -131,9 +130,7 @@ void MainWindow::updateSettingsDisplay()
     ui->maskedDirRadioButton->setEnabled(tmp);
     ui->showMasksButton->setEnabled(tmp);
     if(boxesFlags & Settings::USE_MASKED_SUBJECT_DIRECTORIES)
-    {
         ui->maskedDirRadioButton->setChecked(true);
-    }
     else
         ui->regularDirRadioButton->setChecked(true);
     ui->deleteInputFilesCheckBox->setChecked(boxesFlags & Settings::DELETE_INPUT_FILES);
@@ -188,8 +185,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         QString err = saveFormSettings();
         if(!err.isEmpty())
         {
-            err = "Błąd podczas zapisu ustawień:\n" + err;
-            MsgBox.setText(err);
+            MsgBox.setText("Błąd podczas zapisu ustawień:\n" + err);
             MsgBox.exec();
             ui->tabWidget->setCurrentIndex(1);
             return;
@@ -258,7 +254,5 @@ void MainWindow::showContextInfo()
     QString txt = "<p align='center'>Oprogramowanie darmowe, do wewnętrznego użytku\n Archiwum Programowego OTV Wrocław.</p>"
                   "<p align='center'>Licencja GNU LGPL v3 i GNU LGPL v2.1</p>"
                   "<p align='center'>©Jakub Kulikowski 2015</p>";
-    QMessageBox msg;
-    msg.setText(txt);
     QMessageBox::information(this, "O programie", txt);
 }

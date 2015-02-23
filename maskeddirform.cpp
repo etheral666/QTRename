@@ -101,4 +101,10 @@ void MaskedDirForm::on_finalizeButtonBox_accepted()
     if(!maskChecked)
         checkMasks();
     _settings->setMaskedDirectories(subjectNums, subjectMasks);
+    updateMaskedDirDisplay(_settings->getMaskedDirMap());
+}
+
+void MaskedDirForm::on_maskedDirTableWidget_cellChanged(int row, int column)
+{
+    maskChecked = false;
 }
